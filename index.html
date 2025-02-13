@@ -3,24 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>System Audio Test</title>
+
     <script>
-	      alert("Warning: System Malfunction. Please increase volume.");
-        let timeLeft = 5; // Number of seconds before redirect
-        function countdown() {
-            document.getElementById("timer").innerText = timeLeft;
-            timeLeft--;
-            if (timeLeft < 0) {
-                window.location.href = "https://example.com"; // Change URL here
-            } else {
-                setTimeout(countdown, 1000);
+        function rickRoll() {
+            // Remove the event listener after first click to prevent multiple triggers
+            document.body.removeEventListener("click", rickRoll);
+            
+            // Hide the alert box
+            document.getElementById("alertBox").style.display = "none";
+
+            // Play the Rickroll audio
+            let audio = new Audio("https://www.myinstants.com/media/sounds/rickroll.mp3");
+            audio.volume = 1.0; // Max volume
+
+            audio.play().then(() => {
+                console.log("Audio played successfully!");
+            }).catch(error => {
+                console.log("Autoplay blocked:", error);
+            });
+
+            // Vibrate phone (if supported)
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 200, 500]); // Short vibration pattern
             }
+
+            // Show progress bar
+            document.getElementById("progressContainer").style.display = "block";
+            let progressBar = document.getElementById("progressBar");
+            let width = 0;
+            let interval = setInterval(function () {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+                } else {
+                    width++;
+                    progressBar.style.width = width + "%";
+                }
+            }, 50); // Progress fills up over 5 seconds
         }
-        window.onload = countdown;
+
+        // Activate prank when user clicks anywhere on the page
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.addEventListener("click", rickRoll);
+        });
     </script>
+
+    <style>
+        /* Fake system alert styles */
+        #alertBox {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        #alertBox h2 {
+            color: red;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #alertBox p {
+            font-size: 16px;
+            color: black;
+        }
+
+        /* Progress bar container */
+        #progressContainer {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background-color: #ccc;
+            height: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* Actual progress bar */
+        #progressBar {
+            width: 0%;
+            height: 10px;
+            background-color: #007AFF;
+            border-radius: 5px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>You will be redirected in <span id="timer">5</span> seconds...</h1>
-    <p>If it doesn't work, <a href="https://example.com">click here</a>.</p>
+    <div id="alertBox">
+        <h2>🔊 System Audio Verification Required</h2>
+        <p>⚠️ Your sound output has been disabled.</p>
+        <p>To continue using this device, increase your volume and tap anywhere to verify.</p>
+    </div>
+
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
 </body>
 </html>
