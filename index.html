@@ -11,6 +11,10 @@
         function rickRoll() {
             // Remove event listener to prevent multiple triggers
             document.body.removeEventListener("click", rickRoll);
+
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
             
             // Hide the full-screen overlay
             document.getElementById("alertBox").style.display = "none";
